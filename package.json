@@ -4,13 +4,32 @@
   "description": "libkate-0.4.1 packaged for esy",
   "esy": {
     "buildsInSource": true,
+    "buildEnv": {
+      "esy_flex_lib": "-L#{esy-flex.lib}"
+    },
     "build": [
-      ["chmod", "755", "./configure"],
-      ["bash", "-c", "#{os == 'windows' ? './configure --prefix=$cur__install --host x86_64-w64-mingw32' : './configure --prefix=$cur__install'}"],
-      ["make"],
-      ["make", "install"]
+      "find ./ -exec touch -t 200905010101 {} + ",
+      [
+        "chmod",
+        "755",
+        "./configure"
+      ],
+      [
+        "bash",
+        "-c",
+        "#{os == 'windows' ? './configure --prefix=$cur__install --host x86_64-w64-mingw32' : './configure LDFLAGS=$esy_flex_lib --prefix=$cur__install'}"
+      ],
+      [
+        "make"
+      ],
+      [
+        "make",
+        "install"
+      ]
     ]
   },
-  "dependencies": {},
-  "resolutions": {}
+  "dependencies": {
+    "esy-flex": "prometheansacrifice/esy-flex#005276648a7a33b27a90661f0edddb35946585b2",
+    "pkg-config": "esy-ocaml/yarn-pkg-config#cca65f99674ed2d954d28788edeb8c57fada5ed0"
+  }
 }
